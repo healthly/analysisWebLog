@@ -15,4 +15,4 @@ def ip_location(ip):
 	for oneinfo in datadict:
 		if "code" == oneinfo:
 			if datadict[oneinfo] == 0:
-				return datadict["data"]["country"] + datadict["data"]["region"] + datadict["data"]["city"] + "\t\t" + datadict["data"]["isp"]
+				return datadict["data"]["country"] +':'+ datadict["data"]["area"] +':'+ datadict["data"]["region"] +':'+datadict["data"]["city"] +':'+ datadict["data"]["isp"]

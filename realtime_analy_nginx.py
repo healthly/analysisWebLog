@@ -7,6 +7,7 @@ from datetime import datetime
 from pymongo import Connection
 from datetime import timedelta
 from pymongo.errors import ConnectionFailure
+import ipLocation
 _utcnow = datetime.utcnow()
 
 def c_m_Ocurrences(logList):
@@ -67,7 +68,7 @@ def countIP_URL(logList):
 	print 'total nums :' + str(_total)
 	for k in ip:
 		if k[1] > 30:
-			print k[0],':',k[1]
+			print k[0],':',k[1],':',ipLocation.ip_location(k[0])
 		
 	print "-----Nginx access url NUMs in 20 seconds-------"
 	print 'total nums :' + str(_total)
