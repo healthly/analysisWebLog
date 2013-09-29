@@ -42,7 +42,7 @@ def c_m_Ocurrences(logList):
 		per = float('%0.3f' % per)
 		print p[0],':',p[1],':',str(per) + '%'
 			
-def countIP_URL(logList):
+def countIP_URL(logList,count):
 	_ip = {}
 	_url = {}
 	_ipp = []
@@ -64,16 +64,16 @@ def countIP_URL(logList):
 			_url[i] = _urll.count(i)
 	url = sorted(_url.items(), key=lambda _url:_url[1], reverse=True)
 	
-	print "-----Nginx access IP NUMS in 20 seconds-------"
+	print "------Nginx access IP NUMS in " + str(count) + " seconds-------"
 	print 'total nums :' + str(_total)
 	for k in ip:
-		if k[1] > 30:
+		if k[1] > count:
 			print k[0],':',k[1],':',ipLocation.ip_location(k[0])
 		
-	print "-----Nginx access url NUMs in 20 seconds-------"
+	print "-----Nginx access url NUMs in " +str(count) + " seconds-------"
 	print 'total nums :' + str(_total)
 	for j in url:
-		if j[1] > 20:
+		if j[1] > count:
 			print j[0],':',j[1]
 			
 	
@@ -152,6 +152,8 @@ def argP():
 	parser.add_argument('--codemethod', dest="codemethod", action='store_true', help="output out codes,methods Ocurrences in ten seconds")
 	parser.add_argument('-H', dest="dbhost", default='localhost', help="mongodb's ip or hostname")
 	parser.add_argument('-N', dest="dbname", default='nginx111', help="mongodb's dbname")
+	parser.add_argument('-T', dest="times", type=int,default=-10 , help="times before now to get logs from mongodb,eg:-10 seconds")
+	parser.add_argument('-C', dest="counts",type=int,default=10,help="ips,urls counts")
 	#parser.add_argument('-N', dest="dbname", type=int)
 	
 	return parser
@@ -165,12 +167,12 @@ def main():
 	else:
 		 
 		if argS.ipurl:
-			i = getWebLog(argS.dbhost,27017,argS.dbname,-20)
+			i = getWebLog(argS.dbhost,27017,argS.dbname,argS.times)
 			m = getLogItems(i,u'method',u'referer',u'code',u'size',u'agent')[1]
-			countIP_URL(m)
+			countIP_URL(m,argS.counts)
 		
 		elif argS.codemethod:
-			i = getWebLog(argS.dbhost,27017,argS.dbname,-20)
+			i = getWebLog(argS.dbhost,27017,argS.dbname,argS.times)
 			m = getLogItems(i,u'method',u'referer',u'code',u'size',u'agent')[1]
 			c_m_Ocurrences(m)
 		else:
