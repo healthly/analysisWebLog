@@ -4,6 +4,34 @@ import sys
 import argparse
 import re
 import analysisM
+from datetime import datetime
+from pymongo import Connection
+from datetime import timedelta
+from pymongo.errors import ConnectionFailure
+
+_utcnow = datetime.utcnow()
+
+
+
+def logfromMongo(host,port,dbname,times):
+	''' host: mongodb hostname
+	port: mongodb port
+	dbname: mongodb database names
+	times: times before now to get logs from mongodb,eg:-10
+	'''
+	try:
+		_c1 = Connection(host, port)
+	except ConnectionFailure, e:
+		sys.stderr.write("Could not connect to MongoDB: %s" % e)
+		sys.exit(1)
+	dbC = _c1[dbname]
+	assert dbC.connection == _c1
+	end = _utcnow
+	amin = timedelta(seconds=times)
+	#amin = timedelta(minutes=-1)
+	start = end + amin
+	_r1 = dbC.access.find({'time': {'$gte': start, '$lt': end}})
+	return _r1
 
 def argP():
 	parser = argparse.ArgumentParser(description='analy nginx log from mongodb')
@@ -26,12 +54,12 @@ def main():
 	else:
 		 
 		if argS.ipurl:
-			i = analysisM.getWebLog(argS.dbhost,27017,argS.dbname,argS.times)
+			i = logfromMongo(argS.dbhost,27017,argS.dbname,argS.times)
 			m = analysisM.getLogItems(i,u'method',u'referer',u'code',u'size',u'agent')[1]
 			analysisM.countIP_URL(m,argS.counts)
 		
 		elif argS.codemethod:
-			i = analysisM.getWebLog(argS.dbhost,27017,argS.dbname,argS.times)
+			i = logfromMongo(argS.dbhost,27017,argS.dbname,argS.times)
 			m = analysisM.getLogItems(i,u'method',u'referer',u'code',u'size',u'agent')[1]
 			analysisM.c_m_Ocurrences(m)
 		else:

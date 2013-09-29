@@ -1,12 +1,8 @@
 #!/usr/bin/env python
 #coding=utf-8
+import sys
 import re
-from datetime import datetime
-from pymongo import Connection
-from datetime import timedelta
-from pymongo.errors import ConnectionFailure
 import ipLocation
-_utcnow = datetime.utcnow()
 
 def search():
     return 404
@@ -82,29 +78,6 @@ def countIP_URL(logList,count):
 	
 def insertR(dbC, collect, data):
 	dbC[collect].insert(data, save=True)
-
-
-
-def getWebLog(host,port,dbname,times):
-	''' host: mongodb hostname
-	port: mongodb port
-	dbname: mongodb database names
-	times: times before now to get logs from mongodb,eg:-10
-	'''
-	try:
-		_c1 = Connection(host, port)
-	except ConnectionFailure, e:
-		sys.stderr.write("Could not connect to MongoDB: %s" % e)
-		sys.exit(1)
-	dbC = _c1[dbname]
-	assert dbC.connection == _c1
-	end = _utcnow
-	amin = timedelta(seconds=times)
-	#amin = timedelta(minutes=-1)
-	start = end + amin
-	_r1 = dbC.access.find({'time': {'$gte': start, '$lt': end}})
-	return _r1
-
 
 
 def getLogItems(weblog,*args):
