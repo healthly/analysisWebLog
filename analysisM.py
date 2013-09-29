@@ -76,8 +76,6 @@ def countIP_URL(logList,count):
 			print j[0],':',j[1]
 			
 	
-def insertR(dbC, collect, data):
-	dbC[collect].insert(data, save=True)
 
 
 def getLogItems(weblog,*args):
