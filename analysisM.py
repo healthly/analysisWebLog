@@ -9,7 +9,7 @@ import ipLocation
 _utcnow = datetime.utcnow()
 
 def search():
-
+    return 404
 
 
 def c_m_Ocurrences(logList):
