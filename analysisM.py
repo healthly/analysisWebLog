@@ -4,41 +4,17 @@ import sys
 import re
 import ipLocation
 
-def search():
-    return 404
-
-
-def c_m_Ocurrences(logList):
-	_code = {}
-	_codes = []
-	_meth = {}
-	_meths = []
-	_total = len(logList)
-	for n in logList:
-		_meths.append(n.get('method'))
-		_codes.append(n.get('code'))
-		
-	for m in _meths:
-		if _meths.count(m) > 0:
-			_meth[m] = _meths.count(m)
-	meth = sorted(_meth.items(), key=lambda _meth:_meth[1], reverse=True)
-	print "------Nginx methods nums in 20 seconds---------"
-	print 'total nums :' + str(_total)
-	for p in meth:
-		per = int(p[1]) / float(_total) * 100
-		per = float('%0.3f' % per)
-		print p[0],':',p[1],':',str(per) + '%'
-			
-	for m in _codes:
-		if _codes.count(m) > 0:
-			_code[m] = _codes.count(m)
-	code = sorted(_code.items(), key=lambda _code:_code[1], reverse=True)
-	print "------Nginx codes nums in 20 seconds---------"
-	print 'total nums :' + str(_total)
-	for p in code:
-		per = int(p[1]) / float(_total) * 100
-		per = float('%0.3f' % per)
-		print p[0],':',p[1],':',str(per) + '%'
+def searchUrl(logList,keyword):
+    _urlip2 = []
+    _urlip1 = {}
+    s = keyword
+    for i in logList:
+        u1 = i.get(u'url')
+        if re.match(s,u1):
+            _urlip1[u1] = i.get(u'ip')
+            _urlip2.append(_urlip1)
+            _urlip1.clear()
+    print _urlip2
 
 
 def countIP_URL(logList,count):
@@ -76,6 +52,40 @@ def countIP_URL(logList,count):
 			print j[0],':',j[1]
 			
 	
+
+
+def c_m_Ocurrences(logList):
+	_code = {}
+	_codes = []
+	_meth = {}
+	_meths = []
+	_total = len(logList)
+	for n in logList:
+		_meths.append(n.get('method'))
+		_codes.append(n.get('code'))
+		
+	for m in _meths:
+		if _meths.count(m) > 0:
+			_meth[m] = _meths.count(m)
+	meth = sorted(_meth.items(), key=lambda _meth:_meth[1], reverse=True)
+	print "------Nginx methods nums in 20 seconds---------"
+	print 'total nums :' + str(_total)
+	for p in meth:
+		per = int(p[1]) / float(_total) * 100
+		per = float('%0.3f' % per)
+		print p[0],':',p[1],':',str(per) + '%'
+			
+	for m in _codes:
+		if _codes.count(m) > 0:
+			_code[m] = _codes.count(m)
+	code = sorted(_code.items(), key=lambda _code:_code[1], reverse=True)
+	print "------Nginx codes nums in 20 seconds---------"
+	print 'total nums :' + str(_total)
+	for p in code:
+		per = int(p[1]) / float(_total) * 100
+		per = float('%0.3f' % per)
+		print p[0],':',p[1],':',str(per) + '%'
+
 
 
 def getLogItems(weblog,*args):
