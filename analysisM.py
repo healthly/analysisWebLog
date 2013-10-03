@@ -4,17 +4,25 @@ import sys
 import re
 import ipLocation
 
-def searchUrl(logList,keyword):
-	_urlip2 = []
-	_urlip1 = {}
+def searchUrl(logList,keyword,times):
+	_ipp = []
+	_ip = {}
 	s = keyword
 	for i in logList:
 		u1 = i.get(u'url')
 		if re.match(s,u1):
-			print i
+			_ipp.append(i.get('ip'))
+	for m in _ipp:
+		if _ipp.count(m) > 1:
+			_ip[m] = _ipp.count(m)
+	ip = sorted(_ip.items(), key=lambda _ip:_ip[1], reverse=True)
+	print "------Nginx access IP NUMS in " + str(times)[1:] + " seconds and use "+ keyword +" keywords-------"
+	for k in ip:
+		if k[1] > count:
+			print k[0],':',k[1],':',ipLocation.ip_location(k[0])
 
 
-def countIP_URL(logList,count):
+def countIP_URL(logList,count,times):
 	_ip = {}
 	_url = {}
 	_ipp = []
@@ -36,13 +44,13 @@ def countIP_URL(logList,count):
 			_url[i] = _urll.count(i)
 	url = sorted(_url.items(), key=lambda _url:_url[1], reverse=True)
 	
-	print "------Nginx access IP NUMS in " + str(count) + " seconds-------"
+	print "------Nginx access IP NUMS in " + str(times)[1:] + " seconds-------"
 	print 'total nums :' + str(_total)
 	for k in ip:
 		if k[1] > count:
 			print k[0],':',k[1],':',ipLocation.ip_location(k[0])
 		
-	print "-----Nginx access url NUMs in " +str(count) + " seconds-------"
+	print "-----Nginx access url NUMs in " +str(times)[1:] + " seconds-------"
 	print 'total nums :' + str(_total)
 	for j in url:
 		if j[1] > count:
