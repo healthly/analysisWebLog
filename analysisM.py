@@ -4,7 +4,7 @@ import sys
 import re
 import ipLocation
 
-def searchUrl(logList,keyword,times):
+def searchUrl(logList,keyword,times,count):
 	_ipp = []
 	_ip = {}
 	s = keyword

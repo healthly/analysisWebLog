@@ -68,7 +68,7 @@ def main():
 		elif argS.search:
 			i = logfromMongo(argS.dbhost,27017,argS.dbname,argS.times)
 			m = analysisM.getLogItems(i,u'method',u'referer',u'code',u'size',u'agent')[1]
-			analysisM.searchUrl(m,argS.keyword,argS.times)
+			analysisM.searchUrl(m,argS.keyword,argS.times,argS.counts)
 		else:
 			argP().print_help()
 	#c1 = u'nginx1'
