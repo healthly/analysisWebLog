@@ -13,7 +13,6 @@ def searchUrl(logList,keyword):
         if re.match(s,u1):
             _urlip1[u1] = i.get(u'ip')
             _urlip2.append(_urlip1)
-            _urlip1.clear()
     print _urlip2
 
 
@@ -33,7 +32,7 @@ def countIP_URL(logList,count):
 		if _ipp.count(m) > 1:
 			_ip[m] = _ipp.count(m)
 	ip = sorted(_ip.items(), key=lambda _ip:_ip[1], reverse=True)
-	
+
 	for i in _urll:
 		if _urll.count(i) > 1:
 			_url[i] = _urll.count(i)
