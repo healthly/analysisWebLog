@@ -5,15 +5,13 @@ import re
 import ipLocation
 
 def searchUrl(logList,keyword):
-    _urlip2 = []
-    _urlip1 = {}
-    s = keyword
-    for i in logList:
-        u1 = i.get(u'url')
-        if re.match(s,u1):
-            _urlip1[u1] = i.get(u'ip')
-            _urlip2.append(_urlip1)
-    print _urlip2
+	_urlip2 = []
+	_urlip1 = {}
+	s = keyword
+	for i in logList:
+		u1 = i.get(u'url')
+		if re.match(s,u1):
+			print i
 
 
 def countIP_URL(logList,count):
