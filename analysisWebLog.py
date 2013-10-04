@@ -42,7 +42,7 @@ def argP():
 	parser.add_argument('-H', dest="dbhost", default='localhost', help="mongodb's ip or hostname")
 	parser.add_argument('-N', dest="dbname", default='nginx111', help="mongodb's dbname")
 	parser.add_argument('-T', dest="times", type=int,default=-10 , help="times before now to get logs from mongodb,eg:-10 seconds")
-	parser.add_argument('-C', dest="counts",type=int,default=10,help="ips,urls counts")
+	parser.add_argument('-C', dest="counts",type=int,default=5,help="ips,urls counts")
 	parser.add_argument('-S', dest="keyword",default='-',help="search url's keyword")
 	#parser.add_argument('-N', dest="dbname", type=int)
 	

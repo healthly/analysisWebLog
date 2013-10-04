@@ -9,7 +9,7 @@ def searchUrl(logList,keyword,times,count):
 	_ip = {}
 	s = keyword
 	for i in logList:
-		u1 = i.get(u'url')
+		u1 = str(i.get(u'ip')) + str(i.get(u'url'))
 		if re.match(s,u1):
 			_ipp.append(i.get('ip'))
 	for m in _ipp:
