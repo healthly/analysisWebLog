@@ -33,7 +33,7 @@ def searchUrl(logList,keyword,times,count):
 	print "------Nginx access URL NUMS in " + str(times)[1:] + " seconds and use "+ keyword +" keywords-------"
 	for k in url:
 		if k[1] > count:
-			print k[0],':',k[1],':',ipLocation.ip_location(k[0])
+			print k[0],':',k[1]
 
 
 def countIP_URL(logList,count,times):
