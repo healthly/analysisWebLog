@@ -10,8 +10,8 @@ def searchUrl(logList,keyword,times,count):
 	s = keyword
 	for i in logList:
 		u1 = str(i.get(u'ip')) + str(i.get(u'url'))
-		if re.match(s,u1):
-			_ipp.append(i.get('ip'))
+		if re.search(s,u1):
+			_ipp.append(i.get(u'ip'))
 	for m in _ipp:
 		if _ipp.count(m) > 1:
 			_ip[m] = _ipp.count(m)
