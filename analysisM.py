@@ -5,16 +5,15 @@ import re
 import ipLocation
 
 def searchUrl(logList,keyword,times,count):
+	
 	_ipp = []
 	_ip = {}
 	_urll = []
 	_url = {}
 	s = keyword
 	for i in logList:
-		u1 = str(i.get(u'ip')) + ':' +str(i.get(u'url'))
-		if s == str(i.get(u'url')):
-			print "search web log eq" + keyword +" keywords's via IP :" + i.get(u'ip')
-		elif re.search(s,u1):
+		u1 = str(i.get(u'url')) + ':' + str(i.get(u'ip'))
+		if re.match(s,u1):
 			print u1
 			#_ipp.append(i.get(u'ip'))
 			#_urll.append(i.get(u'url'))
@@ -62,14 +61,14 @@ def countIP_URL(logList,count,times):
 			_url[i] = _urll.count(i)
 	url = sorted(_url.items(), key=lambda _url:_url[1], reverse=True)
 	
-	print "------Nginx access IP NUMS in " + str(times)[1:] + " seconds-------"
-	print 'total nums :' + str(_total)
+	print "------Nginx access IP NUMS in %s seconds-------" % str(times)[1:]
+	print 'total nums :%s' % str(_total)
 	for k in ip:
 		if k[1] > count:
 			print k[0],':',k[1],':',ipLocation.ip_location(k[0])
 		
-	print "-----Nginx access url NUMs in " +str(times)[1:] + " seconds-------"
-	print 'total nums :' + str(_total)
+	print "-----Nginx access url NUMs in %s seconds-------" % str(times)[1:]
+	print 'total nums :%s' % str(_total)
 	for j in url:
 		if j[1] > count:
 			print j[0],':',j[1]
