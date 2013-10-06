@@ -14,24 +14,23 @@ def searchUrl(logList,keyword,times,count):
 	for i in logList:
 		u1 = str(i.get(u'url')) + ':' + str(i.get(u'ip'))
 		if re.match(s,u1):
-			print u1
-			#_ipp.append(i.get(u'ip'))
+			_ipp.append(i.get(u'ip'))
 			#_urll.append(i.get(u'url'))
 			
-#	for m in _ipp:
-#		if _ipp.count(m) > 1:
-#			_ip[m] = _ipp.count(m)
+	for m in _ipp:
+		if _ipp.count(m) > 1:
+			_ip[m] = _ipp.count(m)
 #	
 #	for n in _urll:
 #		if _urll.count(n) > 1:
 #			_url[n] = _urll.count(n)
 #			
-#	ip = sorted(_ip.items(), key=lambda _ip:_ip[1], reverse=True)
+	ip = sorted(_ip.items(), key=lambda _ip:_ip[1], reverse=True)
 #	url = sorted(_url.items(), key=lambda _url:_url[1], reverse=True)
-#	print "------Nginx access IP NUMS in " + str(times)[1:] + " seconds and use "+ keyword +" keywords-------"
-#	for k in ip:
-#		if k[1] > count:
-#			print k[0],':',k[1],':',ipLocation.ip_location(k[0])
+	print "------Nginx access IP NUMS in %s seconds and use %s keywords-------" % str(times)[1:],keyword
+	for k in ip:
+		if k[1] > count:
+			print k[0],':',k[1],':',ipLocation.ip_location(k[0])
 #	
 #	print "------Nginx access URL NUMS in " + str(times)[1:] + " seconds and use "+ keyword +" keywords-------"
 #	for k in url:
