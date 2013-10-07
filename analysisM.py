@@ -32,9 +32,17 @@ def searchUrlorRefer(logList,keyword,times,count,flag):
 		for k in ip:
 			if k[1] > count:
 				print k[0],':',k[1],':',ipLocation.ip_location(k[0])
-	elif flag == 'referer' and _total1 > 0:
-		for k in _referr:
-			print k
+	elif flag == 'referer' and _total2 > 0:
+		for m in _referr:
+			if _referr.count(m) > 1:
+				_ip[m] = _referr.count(m)
+		ip = sorted(_ip.items(), key=lambda _ip:_ip[1], reverse=True)
+		print "------Nginx access IP NUMS in %s seconds and use %s keywords in referer-------" % (str(times)[1:],keyword)
+		print 'total nums :%s' % str(_total1)
+		for k in ip:
+			if k[1] > count:
+				print k[0],':',k[1],':',ipLocation.ip_location(k[0])
+		
 
 #	for n in _urll:
 #		if _urll.count(n) > 1:
