@@ -37,7 +37,8 @@ def logfromMongo(host,port,dbname,times):
 def argP():
 	parser = argparse.ArgumentParser(description='analy nginx log from mongodb')
 	parser.add_argument('--ipurl', dest="ipurl", action='store_true', help="output out ip's ,urls in ten seconds")
-	parser.add_argument('--search', dest="search", action='store_true', help="output search reslut in ten seconds")
+	parser.add_argument('--searchU', dest="searchU", action='store_true', help="search url reslut and output top ip nums ")
+	parser.add_argument('--searchR', dest="searchR", action='store_true', help="search referer reslut and output top ip nums")
 	parser.add_argument('--codemethod', dest="codemethod", action='store_true', help="output out codes,methods Ocurrences in ten seconds")
 	parser.add_argument('-H', dest="dbhost", default='localhost', help="mongodb's ip or hostname")
 	parser.add_argument('-N', dest="dbname", default='nginx111', help="mongodb's dbname")
@@ -60,15 +61,20 @@ def main():
 			i = logfromMongo(argS.dbhost,27017,argS.dbname,argS.times)
 			m = analysisM.getLogItems(i,u'method',u'referer',u'code',u'size',u'agent')[1]
 			analysisM.countIP_URL(m,argS.counts,argS.times)
-		
 		elif argS.codemethod:
 			i = logfromMongo(argS.dbhost,27017,argS.dbname,argS.times)
 			m = analysisM.getLogItems(i,u'method',u'referer',u'code',u'size',u'agent')[1]
 			analysisM.c_m_Ocurrences(m)
-		elif argS.search:
+		elif argS.searchU:
+			flag = 'url'
 			i = logfromMongo(argS.dbhost,27017,argS.dbname,argS.times)
 			m = analysisM.getLogItems(i,u'method',u'referer',u'code',u'size',u'agent')[1]
-			analysisM.searchUrl(m,argS.keyword,argS.times,argS.counts)
+			analysisM.searchUrlorRefer(m,argS.keyword,argS.times,argS.counts,flag)
+		elif argS.searchR:
+			flag = 'referer'
+			i = logfromMongo(argS.dbhost,27017,argS.dbname,argS.times)
+			m = analysisM.getLogItems(i,u'method',u'referer',u'code',u'size',u'agent')[1]
+			analysisM.searchUrlorRefer(m,argS.keyword,argS.times,argS.counts,flag)
 		else:
 			argP().print_help()
 	#c1 = u'nginx1'

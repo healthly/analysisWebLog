@@ -4,30 +4,37 @@ import sys
 import re
 import ipLocation
 
-def searchUrl(logList,keyword,times,count):
+def searchUrlorRefer(logList,keyword,times,count,flag):
 	
 	_ipp = []
 	_ip = {}
-	_urll = []
-	_url = {}
+	_referr = []
+	_refer = {}
 	s = keyword
 	s1 = '^' + s + ':'
+	s2 = ':' + s + '$'
 	for i in logList:
-		u1 = str(i.get(u'url')) + ':' + str(i.get(u'ip'))
+		u1 = str(i.get(u'url')) + ':' + str(i.get(u'ip')) + ':' + str(i.get(u'referer'))
 		if re.search(s1,u1):
 			_ipp.append(i.get(u'ip'))
+		elif re.search(s2,u1):
+			_referr.append(u1)
 			#_urll.append(i.get(u'url'))
-	_total = len(_ipp)
-	if _total > 0:		
+	_total1 = len(_ipp)
+	_total2 = len(_referr)
+	if flag == 'url' and _total1 > 0:		
 		for m in _ipp:
 			if _ipp.count(m) > 1:
 				_ip[m] = _ipp.count(m)
 		ip = sorted(_ip.items(), key=lambda _ip:_ip[1], reverse=True)
 		print "------Nginx access IP NUMS in %s seconds and use %s keywords-------" % (str(times)[1:],keyword)
-		print 'total nums :%s' % str(_total)
+		print 'total nums :%s' % str(_total1)
 		for k in ip:
 			if k[1] > count:
 				print k[0],':',k[1],':',ipLocation.ip_location(k[0])
+	elif flag == 'referer' and _total1 > 0:
+		for k in _referr:
+			print k
 
 #	for n in _urll:
 #		if _urll.count(n) > 1:
