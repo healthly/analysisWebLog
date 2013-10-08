@@ -11,7 +11,8 @@ from pymongo.errors import ConnectionFailure
 
 _utcnow = datetime.utcnow()
 
-def insertR(dbC, collect, data):
+def badipLists(collect, ip):
+	
 	dbC[collect].insert(data, save=True)
 
 def logfromMongo(host,port,dbname,times):
