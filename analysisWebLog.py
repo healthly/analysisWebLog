@@ -11,11 +11,14 @@ from pymongo.errors import ConnectionFailure
 
 _utcnow = datetime.utcnow()
 
-def badipLists(collect, ip):
+def badip2mongo(dbC,ip):
 	
 	dbC[collect].insert(data, save=True)
 
-def logfromMongo(host,port,dbname,times):
+	
+	
+	
+def mongoclient(host,port,dbname):
 	''' host: mongodb hostname
 	port: mongodb port
 	dbname: mongodb database names
@@ -28,6 +31,11 @@ def logfromMongo(host,port,dbname,times):
 		sys.exit(1)
 	dbC = _c1[dbname]
 	assert dbC.connection == _c1
+	return dbC
+	
+	
+	
+def logUtimes(dbC,times):
 	end = _utcnow
 	amin = timedelta(seconds=times)
 	#amin = timedelta(minutes=-1)
@@ -59,21 +67,25 @@ def main():
 	else:
 		 
 		if argS.ipurl:
-			i = logfromMongo(argS.dbhost,27017,argS.dbname,argS.times)
+			dbc = mongoclient(argS.dbhost,27017,argS.dbname)
+			i = logUtimes(dbc,argS.times)
 			m = analysisM.getLogItems(i,u'method',u'referer',u'code',u'size',u'agent')[1]
 			analysisM.countIP_URL(m,argS.counts,argS.times)
 		elif argS.codemethod:
-			i = logfromMongo(argS.dbhost,27017,argS.dbname,argS.times)
+			dbc = mongoclient(argS.dbhost,27017,argS.dbname)
+			i = logUtimes(dbc,argS.times)
 			m = analysisM.getLogItems(i,u'method',u'referer',u'code',u'size',u'agent')[1]
 			analysisM.c_m_Ocurrences(m)
 		elif argS.searchU:
 			flag = 'url'
-			i = logfromMongo(argS.dbhost,27017,argS.dbname,argS.times)
+			dbc = mongoclient(argS.dbhost,27017,argS.dbname)
+			i = logUtimes(dbc,argS.times)
 			m = analysisM.getLogItems(i,u'method',u'referer',u'code',u'size',u'agent')[1]
 			analysisM.searchUrlorRefer(m,argS.keyword,argS.times,argS.counts,flag)
 		elif argS.searchR:
 			flag = 'referer'
-			i = logfromMongo(argS.dbhost,27017,argS.dbname,argS.times)
+			dbc = mongoclient(argS.dbhost,27017,argS.dbname)
+			i = logUtimes(dbc,argS.times)
 			m = analysisM.getLogItems(i,u'method',u'referer',u'code',u'size',u'agent')[1]
 			analysisM.searchUrlorRefer(m,argS.keyword,argS.times,argS.counts,flag)
 		else:

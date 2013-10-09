@@ -42,23 +42,9 @@ def searchUrlorRefer(logList,keyword,times,count,flag):
 		for k in ip:
 			if k[1] > count:
 				print k[0],':',k[1],':',ipLocation.ip_location(k[0])
-		
-
-#	for n in _urll:
-#		if _urll.count(n) > 1:
-#			_url[n] = _urll.count(n)
-	
-		
-#	url = sorted(_url.items(), key=lambda _url:_url[1], reverse=True)
-
-#	
-#	print "------Nginx access URL NUMS in " + str(times)[1:] + " seconds and use "+ keyword +" keywords-------"
-#	for k in url:
-#		if k[1] > count:
-#			print k[0],':',k[1]
 
 
-def countIP_URL(logList,count,times):
+def countIP_URL(logList,count,times,flag):
 	_ip = {}
 	_url = {}
 	_ipp = []
@@ -69,28 +55,30 @@ def countIP_URL(logList,count,times):
 	for n in logList:
 		_ipp.append(n.get('ip'))
 		_urll.append(n.get('url'))
-		_codee.append(n.get('code'))
-	for m in _ipp:
-		if _ipp.count(m) > 1:
-			_ip[m] = _ipp.count(m)
-	ip = sorted(_ip.items(), key=lambda _ip:_ip[1], reverse=True)
-
-	for i in _urll:
-		if _urll.count(i) > 1:
-			_url[i] = _urll.count(i)
-	url = sorted(_url.items(), key=lambda _url:_url[1], reverse=True)
-	
-	print "------Nginx access IP NUMS in %s seconds-------" % str(times)[1:]
-	print 'total nums :%s' % str(_total)
-	for k in ip:
-		if k[1] > count:
-			print k[0],':',k[1],':',ipLocation.ip_location(k[0])
+	if flag == 'ipurl'
+		for m in _ipp:
+			if _ipp.count(m) > 1:
+				_ip[m] = _ipp.count(m)
+		ip = sorted(_ip.items(), key=lambda _ip:_ip[1], reverse=True)
 		
-	print "-----Nginx access url NUMs in %s seconds-------" % str(times)[1:]
-	print 'total nums :%s' % str(_total)
-	for j in url:
-		if j[1] > count:
-			print j[0],':',j[1]
+		for i in _urll:
+			if _urll.count(i) > 1:
+				_url[i] = _urll.count(i)
+		url = sorted(_url.items(), key=lambda _url:_url[1], reverse=True)
+		
+		print "------Nginx access IP NUMS in %s seconds-------" % str(times)[1:]
+		print 'total nums :%s' % str(_total)
+		for k in ip:
+			if k[1] > count:
+				print k[0],':',k[1],':',ipLocation.ip_location(k[0])
+			
+		print "-----Nginx access url NUMs in %s seconds-------" % str(times)[1:]
+		print 'total nums :%s' % str(_total)
+		for j in url:
+			if j[1] > count:
+				print j[0],':',j[1]
+	
+	elif flag == ''
 			
 	
 
