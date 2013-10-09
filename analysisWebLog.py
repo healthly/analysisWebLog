@@ -11,7 +11,9 @@ from pymongo.errors import ConnectionFailure
 
 _utcnow = datetime.utcnow()
 
-def badip2mongo(dbC,ip):
+def badip2mongo(dbC,collect,iplist):
+	for ip in iplist
+		if 
 	
 	dbC[collect].insert(data, save=True)
 
@@ -67,10 +69,11 @@ def main():
 	else:
 		 
 		if argS.ipurl:
+			flag = 'ipurl'
 			dbc = mongoclient(argS.dbhost,27017,argS.dbname)
 			i = logUtimes(dbc,argS.times)
 			m = analysisM.getLogItems(i,u'method',u'referer',u'code',u'size',u'agent')[1]
-			analysisM.countIP_URL(m,argS.counts,argS.times)
+			analysisM.countIP_URL(m,argS.counts,argS.times,flag)
 		elif argS.codemethod:
 			dbc = mongoclient(argS.dbhost,27017,argS.dbname)
 			i = logUtimes(dbc,argS.times)
