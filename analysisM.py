@@ -55,7 +55,7 @@ def countIP_URL(logList,count,times,flag):
 	for n in logList:
 		_ipp.append(n.get('ip'))
 		_urll.append(n.get('url'))
-	if flag == 'ipurl'
+	if flag == 'ipurl':
 		for m in _ipp:
 			if _ipp.count(m) > 1:
 				_ip[m] = _ipp.count(m)
@@ -78,7 +78,7 @@ def countIP_URL(logList,count,times,flag):
 			if j[1] > count:
 				print j[0],':',j[1]
 	
-	elif flag == 'ip'
+	elif flag == 'ip':
 		for m in _ipp:
 			if _ipp.count(m) > 60:
 				_ip[m] = _ipp.count(m)

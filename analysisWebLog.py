@@ -12,7 +12,7 @@ from pymongo.errors import ConnectionFailure
 _utcnow = datetime.utcnow()
 
 def badip2mongo(dbC,collect,iplist):
-	for ip in iplist
+	for ip in iplist:
 		i = dbC[collect].find({"ip":ip[0]})
 		if i:
 			c1 = i.get("counts") + 1
@@ -102,7 +102,7 @@ def main():
 			ipL = analysisM.countIP_URL(m,argS.counts,argS.times,flag)
 			dbB = mongoclient('192.168.10.29',27017,'badip')
 			badip2mongo(dbB,'iplist',ipL)
-			for j in dbB.iplist.find()
+			for j in dbB.iplist.find():
 				print j
 			
 		else:
