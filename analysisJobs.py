@@ -62,7 +62,7 @@ def jobs(dbhost,dbname):
 if __name__=="__main__":
 	dbhost = '192.168.10.29'
 	dbname = 'badip'
-	jobs(dbhost,badip)
+	jobs(dbhost,dbname)
 	# Start the scheduler
 	#sched = Scheduler()
 	#sched.daemonic = False
