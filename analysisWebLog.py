@@ -10,18 +10,7 @@ from datetime import timedelta
 from pymongo.errors import ConnectionFailure
 
 _utcnow = datetime.utcnow()
-
-def badip2mongo(dbC,collect,iplist):
-	for ip in iplist:
-		i = dbC[collect].find({"ip":ip[0]})
-		if i:
-			c1 = i.get("counts") + 1
-			dbC[collect].update({"ip":ip[0]},{"$set":{"counts":c1}}, save=True)
-		else:
-			dbC[collect].insert({"ip":ip[0],"counts":1}, save=True)
-	
-			
-			
+		
 def mongoclient(host,port,dbname):
 	''' host: mongodb hostname
 	port: mongodb port
