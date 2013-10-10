@@ -13,13 +13,15 @@ _utcnow = datetime.utcnow()
 
 def badip2mongo(dbC,collect,iplist):
 	for ip in iplist
-		if 
+		i = dbC[collect].find({"ip":ip[0]})
+		if i:
+			c1 = i.get("counts") + 1
+			dbC[collect].update({"ip":ip[0]},{"$set":{"counts":c1}}, save=True)
+		else:
+			dbC[collect].insert({"ip":ip[0],"counts":1}, save=True)
 	
-	dbC[collect].insert(data, save=True)
-
-	
-	
-	
+			
+			
 def mongoclient(host,port,dbname):
 	''' host: mongodb hostname
 	port: mongodb port
@@ -47,6 +49,7 @@ def logUtimes(dbC,times):
 
 def argP():
 	parser = argparse.ArgumentParser(description='analy nginx log from mongodb')
+	parser.add_argument('--badip', dest="badip", action='store_true', help="input bad into mongodb")
 	parser.add_argument('--ipurl', dest="ipurl", action='store_true', help="output out ip's ,urls in ten seconds")
 	parser.add_argument('--searchU', dest="searchU", action='store_true', help="search url reslut and output top ip nums ")
 	parser.add_argument('--searchR', dest="searchR", action='store_true', help="search referer reslut and output top ip nums")
@@ -91,11 +94,19 @@ def main():
 			i = logUtimes(dbc,argS.times)
 			m = analysisM.getLogItems(i,u'method',u'referer',u'code',u'size',u'agent')[1]
 			analysisM.searchUrlorRefer(m,argS.keyword,argS.times,argS.counts,flag)
+		elif argS.badip:
+			flag = 'ip'
+			dbc = mongoclient(argS.dbhost,27017,argS.dbname)
+			i = logUtimes(dbc,argS.times)
+			m = analysisM.getLogItems(i,u'method',u'referer',u'code',u'size',u'agent')[1]
+			ipL = analysisM.countIP_URL(m,argS.counts,argS.times,flag)
+			dbB = mongoclient('192.168.10.29',27017,'badip')
+			badip2mongo(dbB,'iplist',ipL)
+			for j in dbB.iplist.find()
+				print j
+			
 		else:
 			argP().print_help()
-	#c1 = u'nginx1'
-	#insertR(dbC, c1, logIn)
-
 
 if __name__ == "__main__":
    main()

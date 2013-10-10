@@ -80,7 +80,7 @@ def countIP_URL(logList,count,times,flag):
 	
 	elif flag == 'ip'
 		for m in _ipp:
-			if _ipp.count(m) > 1:
+			if _ipp.count(m) > 60:
 				_ip[m] = _ipp.count(m)
 		ip = sorted(_ip.items(), key=lambda _ip:_ip[1], reverse=True)
 		return ip
