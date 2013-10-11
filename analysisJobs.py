@@ -55,19 +55,19 @@ def jobs(dbhost,dbname):
 	ipL = analysisM.countIP_URL(m,60,-10,flag)
 	dbB = mongoclient('localhost',27017,'badip')
 	badip2mongo(dbB,'iplist',ipL)
-	for j in dbB.iplist.find():
-		print j
+	#for j in dbB.iplist.find():
+	#	print j
 		
 		
 if __name__=="__main__":
 	dbhost = 'localhost'
 	dbname = 'nginx111'
-	jobs(dbhost,dbname)
+	#jobs(dbhost,dbname)
 	# Start the scheduler
-	#sched = Scheduler()
-	#sched.daemonic = False
-	#sched.add_interval_job(jobs,seconds=30,[dbhost,dbname])
-	#sched.start()
+	sched = Scheduler()
+	sched.daemonic = False
+	sched.add_interval_job(jobs,seconds=30,args=[dbhost,dbname])
+	sched.start()
 		
 		
 		
