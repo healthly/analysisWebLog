@@ -10,10 +10,13 @@ from datetime import timedelta
 from pymongo.errors import ConnectionFailure
 from apscheduler.scheduler import Scheduler
 import logging 
-_utcnow = datetime.utcnow()
+import comiplist
+#_utcnow = datetime.utcnow()
 
 def badip2mongo(dbC,collect,iplist):
 	for ip in iplist:
+		if ip[0] in comiplist.comiplist():
+			continue
 		i = dbC[collect].find_one({"ip":ip[0]})
 		if i:
 			c1 = i.get("counts") + 1
