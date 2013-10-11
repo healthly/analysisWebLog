@@ -9,6 +9,7 @@ from pymongo import Connection
 from datetime import timedelta
 from pymongo.errors import ConnectionFailure
 from apscheduler.scheduler import Scheduler
+import logging 
 _utcnow = datetime.utcnow()
 
 def badip2mongo(dbC,collect,iplist):
@@ -39,7 +40,7 @@ def mongoclient(host,port,dbname):
 	
 	
 def logUtimes(dbC,times):
-	end = _utcnow
+	end = datetime.utcnow()
 	amin = timedelta(seconds=times)
 	#amin = timedelta(minutes=-1)
 	start = end + amin
@@ -47,9 +48,9 @@ def logUtimes(dbC,times):
 	return _r1
 	
 	
-def jobs(dbhost,dbname):
+def jobs():
 	flag = 'ip'
-	dbc = mongoclient(dbhost,27017,dbname)
+	dbc = mongoclient('localhost',27017,'nginx111')
 	i = logUtimes(dbc,-10)
 	m = analysisM.getLogItems(i)[1]
 	ipL = analysisM.countIP_URL(m,60,-10,flag)
@@ -60,14 +61,12 @@ def jobs(dbhost,dbname):
 		
 		
 if __name__=="__main__":
-	dbhost = 'localhost'
-	dbname = 'nginx111'
-	#jobs(dbhost,dbname)
+	#dbhost = 'localhost'
+	#dbname = 'nginx111'
+	#jobs()
 	# Start the scheduler
+	logging.basicConfig()
 	sched = Scheduler()
 	sched.daemonic = False
-	sched.add_interval_job(jobs,seconds=30,args=[dbhost,dbname])
-	sched.start()
-		
-		
-		
+	sched.add_interval_job(jobs,seconds=10)
+	sched.start()	
