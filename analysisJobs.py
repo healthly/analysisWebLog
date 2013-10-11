@@ -23,8 +23,8 @@ def badip2mongo(dbC,collect,iplist):
 			dbC[collect].update({"ip":ip[0]},{"$set":{"counts":c1}}, save=True)
 		else:
 			dbC[collect].insert({"ip":ip[0],"counts":1}, save=True)
-
-			
+	
+		
 def mongoclient(host,port,dbname):
 	''' host: mongodb hostname
 	port: mongodb port
@@ -50,8 +50,18 @@ def logUtimes(dbC,times):
 	_r1 = dbC.access.find({'time': {'$gte': start, '$lt': end}})
 	return _r1
 	
+def delbadip4mongo(dbC,collect,count):
+	'''
+	delete docs from mongodb when ip count $lt count 
+	'''
+	dbC[collect].remove({"counts":{"$lt": count}})
 	
-def jobs():
+def deljobs():
+	count = 3
+	dbD = mongoclient('localhost',27017,'badip')
+	delbadip4mongo(dbD,'iplist',count)
+	
+def injobs():
 	flag = 'ip'
 	dbc = mongoclient('localhost',27017,'nginx111')
 	i = logUtimes(dbc,-10)
@@ -71,5 +81,5 @@ if __name__=="__main__":
 	logging.basicConfig()
 	sched = Scheduler()
 	sched.daemonic = False
-	sched.add_interval_job(jobs,seconds=10)
+	sched.add_interval_job(injobs,seconds=10)
 	sched.start()	
